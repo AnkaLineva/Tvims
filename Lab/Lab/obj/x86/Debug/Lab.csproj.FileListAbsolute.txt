@@ -5,3 +5,11 @@ C:\Users\Maria\Desktop\ТВиМС\Lab\Lab\bin\Debug\Lab.exe
 C:\Users\Maria\Desktop\ТВиМС\Lab\Lab\bin\Debug\Lab.pdb
 C:\Users\Maria\Desktop\ТВиМС\Lab\Lab\obj\x86\Debug\Lab.exe
 C:\Users\Maria\Desktop\ТВиМС\Lab\Lab\obj\x86\Debug\Lab.pdb
+C:\Users\Julia\Tvims\Lab\Lab\obj\x86\Debug\Lab.exe
+C:\Users\Julia\Tvims\Lab\Lab\obj\x86\Debug\Lab.pdb
+C:\Users\Julia\Tvims\Lab\Lab\bin\Debug\Lab.exe
+C:\Users\Julia\Tvims\Lab\Lab\bin\Debug\Lab.pdb
+C:\Users\Julia\Tvims\Lab\Lab\obj\x86\Debug\Lab.csprojResolveAssemblyReference.cache
+C:\Users\Julia\Tvims\Lab\Lab\obj\x86\Debug\Lab.Form1.resources
+C:\Users\Julia\Tvims\Lab\Lab\obj\x86\Debug\Lab.Properties.Resources.resources
+C:\Users\Julia\Tvims\Lab\Lab\obj\x86\Debug\Lab.csproj.GenerateResource.Cache
