@@ -6,100 +6,95 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Controls;
+
 
 namespace Lab
 {
     public partial class Form1 : Form
     {
-        /*создание таблицы*/
-        void Funtcion(int rightgran)
-        {
-            dataGridView1.Size = new Size(400, 150);
-
-            /*создание столбцов*/
-            //1 столбец, текстовый
-            DataGridViewTextBoxColumn column0 = new DataGridViewTextBoxColumn();
-            column0.Name = "x";
-            column0.HeaderText = "x";
-            //Берем количество столбцов
-
-            for (int i = 0; i < rightgran; i++) {
-                DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
-                column.Name = "sv";
-                column.HeaderText = ""+i;
-                dataGridView1.Columns.AddRange(column);
-                //создание ячейки для столбца
-                DataGridViewCell id0 = new DataGridViewTextBoxCell();
-                id0.Value = ""+i; // тут нужен набор данных
-            }
-
-        }
         public Form1()
         {
             InitializeComponent();
         }
+        
+        public void Table(int k, double[] u, int[] n, double sumN)
+        {
+            dataGridView1.Size = new Size(500, 150);
 
-        RandU lab = new RandU();
+            dataGridView1.RowCount = 3;
+            dataGridView1.ColumnCount = k;
+
+            dataGridView1.Rows[0].HeaderCell.Value = "u[i]";
+            dataGridView1.Rows[1].HeaderCell.Value = "n[i]";
+            dataGridView1.Rows[2].HeaderCell.Value = "n[i]/n";
+
+            for (int i = 0; i < dataGridView1.ColumnCount; i++)
+            {
+                dataGridView1.Rows[0].Cells[i].Value = u[i];
+            }
+
+            for (int i = 0; i < dataGridView1.ColumnCount; i++)
+            {
+                dataGridView1.Rows[1].Cells[i].Value = n[i];
+            }
+
+            for (int i = 0; i < dataGridView1.ColumnCount; i++)
+            {
+                dataGridView1.Rows[2].Cells[i].Value = n[i] / sumN;
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            lab.u = lab.genU();
-            textBox1.Text = String.Format("u={0}", lab.u);
-         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            TextBox[] tb = new TextBox[10];
-            for (int i = 0; i < tb.Length; i++)
-            {
-                tb[i] = new System.Windows.Forms.TextBox();
-                tb[i].Location = new System.Drawing.Point(101, 50 + i * 30);
-                tb[i].Name = "textBox" + i.ToString();
-                tb[i].Size = new System.Drawing.Size(75, 23);
-                tb[i].TabIndex = i;
-                tb[i].Text = "textBox" + i.ToString();
-                Controls.Add(tb[i]);
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if ((textBox1.Text == null) || (textBox2.Text == null))
-                MessageBox.Show("Field of p1 or p2 is empty");
+            if (textBox1.Text == "")
+                MessageBox.Show("Empty field");
             else
             {
-                double p1 = Convert.ToDouble(textBox2.Text);
-                double p2 = Convert.ToDouble(textBox3.Text);
+                int k = Convert.ToInt32(textBox1.Text);
+                double[] u = new double[k];
+                Random rnd = new Random();//Создание объекта для генерации чисел
 
-                double sum = p1;
-                int i = 1;
-
-                if ((p1 > 1) || (p2 > 1) || ((p1 + p2) != 1))
-                    MessageBox.Show("Defult. Please try again");
-
-                while (sum < lab.u)
+                for (int j = 0; j < k; j++)
                 {
-                    sum = sum + Math.Pow(1 - p1, i) * Math.Pow(1 - p2, i - 1) * (p1 + p2 - p1 * p2);
-                    i++;
+                    //Получить очередное (в данном случае - первое) случайное число
+                    double value = rnd.NextDouble();
+                    
+                    u[j] = Math.Round(value, 3);
                 }
 
-                lab.segm = i;
-                Funtcion(lab.segm);
+                Array.Sort(u);
+
+                if ((textBox2.Text == "") || (textBox3.Text == ""))
+                    MessageBox.Show("Empty field");
+                else
+                {
+                    double p1 = Convert.ToDouble(textBox2.Text);
+                    double p2 = Convert.ToDouble(textBox3.Text);
+
+                    if ((p1 > 1) || (p2 > 1))
+                        MessageBox.Show("Error");
+
+                    int[] n = new int[k];
+                    double sumN = 0;
+
+                    for (int j = 0; j < k; j++)
+                    {
+                        double sum = p1;
+                        int i = 1;
+                        while (sum < u[j])
+                        {
+                            sum = sum + Math.Pow(1 - p1, i) * Math.Pow(1 - p2, i - 1) * (p1 + p2 - p1 * p2);
+                            i++;
+                        }
+                        n[j] = i;
+                        sumN = sumN + i;
+                    }
+
+                    Table(k, u, n, sumN);
+                    //MessageBox.Show(sumN.ToString());
+                }
             }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
         }
     }
 }
